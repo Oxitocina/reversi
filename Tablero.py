@@ -33,7 +33,7 @@ class Tablero:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x-i-1,y)
-				resultado ==1
+				resultado =True
 
 			#Comprobacion derecha
 			validMove = False
@@ -46,7 +46,7 @@ class Tablero:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x+i+1,y)
-				resultado ==1
+				resultado =True
 
 			#Comprobacion arriba
 			validMove = False
@@ -59,7 +59,7 @@ class Tablero:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x,y-i-1)
-				resultado ==1
+				resultado =True
 
 			#Comprobacion abajo
 			validMove = False
@@ -72,9 +72,64 @@ class Tablero:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x,y+i+1)
-				resultado ==1
+				resultado = True
 
+			#Comprobacion diagonal negativa superior (\)
+			validMove = False
+			for i in range(min(x,y)):
+				if tablero[x-i-1][y-i-1] == jugador*-1:
+					validMove = True
+				if tablero[x-i-1][y-i-1] == jugador:
+					break
+				if tablero[x-i-1][y-i-1] == 0
+					validMove = False
+			if validMove:
+				swapRow(x,y,x-i-1,y-i-1)
+				resultado =True
+
+			#Comprobacion diagonal negativa inferior (\)
+			validMove = False
+			for i in range(min(8-x,8-y):
+				if tablero[x+i+1][y+i+1] == jugador*-1:
+					validMove = True
+				if tablero[x+i+1][y+i+1] == jugador:
+					break
+				if tablero[x+i+1][y+i+1] == 0
+					validMove = False
+			if validMove:
+				swapRow(x,y,x+i+1,y+i+1)
+				resultado =True
+
+			#Comprobacion diagonal positiva superior (/)
+			validMove = False
+			for i in range(min(8-x,y)):
+				if tablero[x+i+1][y-i-1] == jugador*-1:
+					validMove = True
+				if tablero[x+i+1][y-i-1] == jugador:
+					break
+				if tablero[x+i+1][y-i-1] == 0
+					validMove = False
+			if validMove:
+				swapRow(x,y,x+i+1,y-i-1)
+				resultado =True
+
+			#Comprobacion diagonal positiva inferior (/)
+			validMove = False
+			for i in range(min(x,8-y):
+				if tablero[x-i-1][y+i+1] == jugador*-1:
+					validMove = True
+				if tablero[x-i-1][y+i+1] == jugador:
+					break
+				if tablero[x-i-1][y+i+1] == 0
+					validMove = False
+			if validMove:
+				swapRow(x,y,x-i-1,y+i+1)
+				resultado =True
+
+			#Si una vez llegado aqui el resultado es 1, el movimiento ha sido valido
+			return resultado
 	#DEPRECATED
 	def avalancha(self, x, y):
 	
 	def swapRow(self, x, y):
+		return True
