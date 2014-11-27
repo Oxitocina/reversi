@@ -29,7 +29,7 @@ class Tablero:
 					validMove = True
 				if tablero[x-i-1][y] == jugador:
 					break
-				if tablero[x-i-1][y] == 0
+				if tablero[x-i-1][y] == 0:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x-i-1,y)
@@ -42,7 +42,7 @@ class Tablero:
 					validMove = True
 				if tablero[x+i+1][y] == jugador:
 					break
-				if tablero[x+i+1][y] == 0
+				if tablero[x+i+1][y] == 0:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x+i+1,y)
@@ -55,7 +55,7 @@ class Tablero:
 					validMove = True
 				if tablero[x][y-i-1] == jugador:
 					break
-				if tablero[x][y-i-1] == 0
+				if tablero[x][y-i-1] == 0:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x,y-i-1)
@@ -68,7 +68,7 @@ class Tablero:
 					validMove = True
 				if tablero[x][y+i+1] == jugador:
 					break
-				if tablero[x][y+i+1] == 0
+				if tablero[x][y+i+1] == 0:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x,y+i+1)
@@ -81,7 +81,7 @@ class Tablero:
 					validMove = True
 				if tablero[x-i-1][y-i-1] == jugador:
 					break
-				if tablero[x-i-1][y-i-1] == 0
+				if tablero[x-i-1][y-i-1] == 0:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x-i-1,y-i-1)
@@ -89,12 +89,12 @@ class Tablero:
 
 			#Comprobacion diagonal negativa inferior (\)
 			validMove = False
-			for i in range(min(8-x,8-y):
+			for i in range(min(8-x,8-y)):
 				if tablero[x+i+1][y+i+1] == jugador*-1:
 					validMove = True
 				if tablero[x+i+1][y+i+1] == jugador:
 					break
-				if tablero[x+i+1][y+i+1] == 0
+				if tablero[x+i+1][y+i+1] == 0:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x+i+1,y+i+1)
@@ -107,7 +107,7 @@ class Tablero:
 					validMove = True
 				if tablero[x+i+1][y-i-1] == jugador:
 					break
-				if tablero[x+i+1][y-i-1] == 0
+				if tablero[x+i+1][y-i-1] == 0:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x+i+1,y-i-1)
@@ -115,12 +115,12 @@ class Tablero:
 
 			#Comprobacion diagonal positiva inferior (/)
 			validMove = False
-			for i in range(min(x,8-y):
+			for i in range(min(x,8-y)):
 				if tablero[x-i-1][y+i+1] == jugador*-1:
 					validMove = True
 				if tablero[x-i-1][y+i+1] == jugador:
 					break
-				if tablero[x-i-1][y+i+1] == 0
+				if tablero[x-i-1][y+i+1] == 0:
 					validMove = False
 			if validMove:
 				swapRow(x,y,x-i-1,y+i+1)
@@ -130,6 +130,6 @@ class Tablero:
 			return resultado
 	#DEPRECATED
 	def avalancha(self, x, y):
-	
+		pass
 	def swapRow(self, x, y):
 		return True
