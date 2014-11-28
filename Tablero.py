@@ -197,3 +197,4 @@ if __name__ == "__main__":
 	print(culo.play(5,3))
 	culo.draw()
 	#print(culo.count())
+	
