@@ -41,6 +41,8 @@ class Tablero:
 		if self.canPlay(x,y):
 			self.tablero[x][y] = self.jugador
 			self.jugador *= -1
+			return True
+		return False
 
 	#Comprueba si en esa casilla se puede colocar ficha =D
 	def canPlay (self, x, y):

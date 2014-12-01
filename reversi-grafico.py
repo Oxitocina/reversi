@@ -16,22 +16,27 @@ class Partida():
 		#self.ventana.close()
 
 	def coloca_fichas(self):
-		for i in self.tabl.tablero:
-			for x in i:
-				if x == 1:
-					circulo = Circle(Point((i+1)*69-34.5, (j+1)*69-34.5), 34.5)
-					circulo.setFill("red")
-					circulo.draw(self.ventana)
-				elif x == -1:
-					circulo = Circle(Point((i+1)*69-34.5, (j+1)*69-34.5), 34.5)
+		lol = 0
+		for i in range(8):
+			for j in range(8):
+				circulo = Circle(Point((i+1)*69-34.5, (j+1)*69-34.5), 34.5)
+				if self.tabl.tablero[i][j] ==1:
+					circulo.setFill("red")	
+					lol += 1
+				if self.tabl.tablero[i][j] ==-1:
 					circulo.setFill("green")
-					circulo.draw(self.ventana)
+					lol+=1
+				circulo.draw(self.ventana)
+		print (lol)
+
 	def jugar(self):
 		while self.fichas<64:
 			jugada = self.ventana.getMouse()
-			if self.tabl.play(int(jugada.x/69)+1,int(jugada.y/69)+1):
+			if self.tabl.play(int(jugada.x/69),int(jugada.y/69)):
 				self.fichas += 1
-				self.coloca_fichas
+				print (self.fichas)
+				self.coloca_fichas()
 
 if __name__ == "__main__":
 	culo = Partida()
+	culo.jugar()
