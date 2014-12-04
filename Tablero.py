@@ -54,9 +54,8 @@ class Tablero:
 			#Comprobacion izquierda
 			validMove = False
 			for i in range(x):
-				if self.tablero[x-i-1][y] == self.jugador*-1:
-					validMove = True
 				if self.tablero[x-i-1][y] == self.jugador:
+					validMove = self.tablero[x-i][y] == self.jugador*-1
 					break
 				if self.tablero[x-i-1][y] == 0:
 					validMove = False
@@ -68,9 +67,8 @@ class Tablero:
 			#Comprobacion derecha
 			validMove = False
 			for i in range(8-x-1):
-				if self.tablero[x+i+1][y] == self.jugador*-1:
-					validMove = True
 				if self.tablero[x+i+1][y] == self.jugador:
+					validMove = self.tablero[x+i][y] == self.jugador*-1
 					break
 				if self.tablero[x+i+1][y] == 0:
 					validMove = False
@@ -82,9 +80,8 @@ class Tablero:
 			#Comprobacion arriba
 			validMove = False
 			for i in range(y):
-				if self.tablero[x][y-i-1] == self.jugador*-1:
-					validMove = True
 				if self.tablero[x][y-i-1] == self.jugador:
+					validMove = self.tablero[x][y-i] == self.jugador*-1
 					break
 				if self.tablero[x][y-i-1] == 0:
 					validMove = False
@@ -96,9 +93,8 @@ class Tablero:
 			#Comprobacion abajo
 			validMove = False
 			for i in range(8-y-1):
-				if self.tablero[x][y+i+1] == self.jugador*-1:
-					validMove = True
 				if self.tablero[x][y+i+1] == self.jugador:
+					validMove = self.tablero[x][y+i] == self.jugador*-1
 					break
 				if self.tablero[x][y+i+1] == 0:
 					validMove = False
@@ -110,9 +106,8 @@ class Tablero:
 			#Comprobacion diagonal negativa superior (\)
 			validMove = False
 			for i in range(min(x,y)):
-				if self.tablero[x-i-1][y-i-1] == self.jugador*-1:
-					validMove = True
 				if self.tablero[x-i-1][y-i-1] == self.jugador:
+					validMove = self.tablero[x-i][y-i] == self.jugador*-1
 					break
 				if self.tablero[x-i-1][y-i-1] == 0:
 					validMove = False
@@ -124,9 +119,8 @@ class Tablero:
 			#Comprobacion diagonal negativa inferior (\)
 			validMove = False
 			for i in range(min(8-x-1,8-y-1)):
-				if self.tablero[x+i+1][y+i+1] == self.jugador*-1:
-					validMove = True
 				if self.tablero[x+i+1][y+i+1] == self.jugador:
+					validMove = self.tablero[x+i][y+i] == self.jugador*-1
 					break
 				if self.tablero[x+i+1][y+i+1] == 0:
 					validMove = False
@@ -139,10 +133,8 @@ class Tablero:
 			#Comprobacion diagonal positiva superior (/)
 			validMove = False
 			for i in range(min(8-x-1,y)):
-				if self.tablero[x+i+1][y-i-1] == self.jugador*-1:
-					validMove = True
 				if self.tablero[x+i+1][y-i-1] == self.jugador:
-					validMove = self.tablero[x+i+1][y-i-1] == self.jugador*-1
+					validMove = self.tablero[x+i][y-i] == self.jugador*-1
 					break
 				if self.tablero[x+i+1][y-i-1] == 0:
 					validMove = False
@@ -156,7 +148,7 @@ class Tablero:
 			validMove = False
 			for i in range(min(x,8-y-1)):
 				if self.tablero[x-i-1][y+i+1] == self.jugador:
-					validMove = self.tablero[x-i-2][y+i+2] == self.jugador*-1
+					validMove = self.tablero[x-i][y+i] == self.jugador*-1
 					break
 				if self.tablero[x-i-1][y+i+1] == 0:
 					validMove = False
