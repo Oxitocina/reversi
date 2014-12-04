@@ -142,6 +142,7 @@ class Tablero:
 				if self.tablero[x+i+1][y-i-1] == self.jugador*-1:
 					validMove = True
 				if self.tablero[x+i+1][y-i-1] == self.jugador:
+					validMove = self.tablero[x+i+1][y-i-1] == self.jugador*-1
 					break
 				if self.tablero[x+i+1][y-i-1] == 0:
 					validMove = False
@@ -154,9 +155,8 @@ class Tablero:
 			#Comprobacion diagonal positiva inferior (/)
 			validMove = False
 			for i in range(min(x,8-y-1)):
-				if self.tablero[x-i-1][y+i+1] == self.jugador*-1:
-					validMove = True
 				if self.tablero[x-i-1][y+i+1] == self.jugador:
+					validMove = self.tablero[x-i-2][y+i+2] == self.jugador*-1
 					break
 				if self.tablero[x-i-1][y+i+1] == 0:
 					validMove = False
@@ -171,19 +171,32 @@ class Tablero:
 	#Cambia el valor de una linea al del jugador actual(Ha comido fichas)
 	def swapRow(self, x0, y0, x1, y1):
 		#Separo la menor de cada coordenada para poder recorrerlas facilmente
-		xworth = min(x0,x1)
-		x = max(x0,x1)
-		yworth=min(y0,y1)
-		y=max(y0,y1)
+		if (x0 < x1 and y0 > y1) or (x1 < x0 and y1 > y0):
+			xinicio = min(x0, x1)
+			yinicio = max (y0, y1)
+			xfin = max(x0,x1)
+			yfin = min (y0, y1)
+			while xinicio != xfin or yinicio != yfin:
+				self.tablero[xinicio][yinicio] = self.jugador
+				if xinicio != xfin:
+					xinicio+=1
+				if yinicio != yfin:
+					yinicio-=1
+			
+		else:
+			xinicio = min(x0,x1)
+			xfin = max(x0,x1)
+			yinicio=min(y0,y1)
+			yfin = max(y0,y1)
 
-		#Bucle que va desde las coordenadas inferiores a las superiores, aumentando mientras sea aun menor, por tanto, recorre filas y columnas sumando solo en una variable
-		#y las diagonales sumando en ambas variables, recorriendo cualquier asi cualquier direccion.
-		while xworth != x or yworth != y:
-			self.tablero[xworth][yworth] = self.jugador
-			if xworth != x:
-				xworth+=1
-			if yworth != y:
-				yworth+=1
+			#Bucle que va desde las coordenadas inferiores a las superiores, aumentando mientras sea aun menor, por tanto, recorre filas y columnas sumando solo en una variable
+			#y las diagonales sumando en ambas variables, recorriendo cualquier asi cualquier direccion.
+			while xinicio != xfin or yinicio != yfin:
+				self.tablero[xinicio][yinicio] = self.jugador
+				if xinicio != xfin:
+					xinicio+=1
+				if yinicio != yfin:
+					yinicio+=1
 
 	#Cuenta el numero de fichas del jugador uno
 	def count(self):
@@ -197,6 +210,7 @@ class Tablero:
 if __name__ == "__main__":
 	culo = Tablero()
 	print(culo.play(5,3))
+	print(culo.play(5,2))
 	culo.draw()
 	#print(culo.count())
 	

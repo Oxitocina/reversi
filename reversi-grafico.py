@@ -21,12 +21,13 @@ class Partida():
 			for j in range(8):
 				circulo = Circle(Point((i+1)*69-34.5, (j+1)*69-34.5), 34.5)
 				if self.tabl.tablero[i][j] ==1:
-					circulo.setFill("red")	
+					circulo.setFill("#FF66FF")	
 					lol += 1
+					circulo.draw(self.ventana)
 				if self.tabl.tablero[i][j] ==-1:
-					circulo.setFill("green")
+					circulo.setFill("#00FFFF")
 					lol+=1
-				circulo.draw(self.ventana)
+					circulo.draw(self.ventana)
 		print (lol)
 
 	def jugar(self):
@@ -36,6 +37,12 @@ class Partida():
 				self.fichas += 1
 				print (self.fichas)
 				self.coloca_fichas()
+		if self.tabl.count() < 32:
+			print("Gana el azul")
+		elif self.tabl.count() > 32:
+			print("Gana el rosa")
+		else:
+			print("Empate")
 
 if __name__ == "__main__":
 	culo = Partida()
