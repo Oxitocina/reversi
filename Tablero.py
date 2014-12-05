@@ -16,9 +16,9 @@
 
 #Guarda la informacion sobre el tablero y hace la logica del juego
 class Tablero:
-	
 	def __init__(self):
 		self.jugador = 1
+		self.fichas = 4
 		self.tablero=[]
 		#Tablero de 8x8
 		for i in range(8):
@@ -29,6 +29,7 @@ class Tablero:
 		self.tablero[3][4]=-1
 		self.tablero[4][3]=-1
 
+	#Dibuja una representacion del tablero por consola para debuggear
 	def draw(self):
 		for i in self.tablero:
 			for x in i:
@@ -41,11 +42,12 @@ class Tablero:
 		if self.canPlay(x,y):
 			self.tablero[x][y] = self.jugador
 			self.jugador *= -1
+			self.fichas += 1
 			return True
 		return False
 
 	#Comprueba si en esa casilla se puede colocar ficha =D
-	def canPlay (self, x, y):
+	def canPlay (self, x, y, check = False):
 		#Solo se puede jugar si la casilla estaba vacia
 		if self.tablero[x][y] == 0:
 			
@@ -61,6 +63,8 @@ class Tablero:
 					validMove = False
 					break
 			if validMove:
+				if check:
+					return True
 				self.swapRow(x,y,x-i-1,y)
 				resultado =True
 
@@ -74,6 +78,8 @@ class Tablero:
 					validMove = False
 					break
 			if validMove:
+				if check:
+					return True
 				self.swapRow(x,y,x+i+1,y)
 				resultado =True
 
@@ -87,6 +93,8 @@ class Tablero:
 					validMove = False
 					break
 			if validMove:
+				if check:
+					return True
 				self.swapRow(x,y,x,y-i-1)
 				resultado =True
 
@@ -100,6 +108,8 @@ class Tablero:
 					validMove = False
 					break
 			if validMove:
+				if check:
+					return True
 				self.swapRow(x,y,x,y+i+1)
 				resultado = True
 
@@ -113,6 +123,8 @@ class Tablero:
 					validMove = False
 					break
 			if validMove:
+				if check:
+					return True
 				self.swapRow(x,y,x-i-1,y-i-1)
 				resultado =True
 
@@ -126,7 +138,8 @@ class Tablero:
 					validMove = False
 					break
 			if validMove:
-
+				if check:
+					return True
 				self.swapRow(x,y,x+i+1,y+i+1)
 				resultado =True
 
@@ -140,7 +153,8 @@ class Tablero:
 					validMove = False
 					break
 			if validMove:
-
+				if check:
+					return True
 				self.swapRow(x,y,x+i+1,y-i-1)
 				resultado =True
 
@@ -154,6 +168,8 @@ class Tablero:
 					validMove = False
 					break
 			if validMove:
+				if check:
+					return True
 				self.swapRow(x,y,x-i-1,y+i+1)
 				resultado =True
 
@@ -162,20 +178,24 @@ class Tablero:
 
 	#Cambia el valor de una linea al del jugador actual(Ha comido fichas)
 	def swapRow(self, x0, y0, x1, y1):
-		#Separo la menor de cada coordenada para poder recorrerlas facilmente
+		#Caso particular de la diagonal positiva (/)
 		if (x0 < x1 and y0 > y1) or (x1 < x0 and y1 > y0):
+			#Separo la menor de cada coordenada para poder recorrerlas facilmente
 			xinicio = min(x0, x1)
 			yinicio = max (y0, y1)
 			xfin = max(x0,x1)
 			yfin = min (y0, y1)
+			#Recorre la diagonal de abajo a arriba
 			while xinicio != xfin or yinicio != yfin:
 				self.tablero[xinicio][yinicio] = self.jugador
 				if xinicio != xfin:
 					xinicio+=1
 				if yinicio != yfin:
 					yinicio-=1
-			
+		
+		#Resto de casos se pueden agrupar en uno solo
 		else:
+			#Separo la menor de cada coordenada para poder recorrerlas facilmente
 			xinicio = min(x0,x1)
 			xfin = max(x0,x1)
 			yinicio=min(y0,y1)
@@ -190,19 +210,23 @@ class Tablero:
 				if yinicio != yfin:
 					yinicio+=1
 
-	#Cuenta el numero de fichas del jugador uno
+	#Cuenta el numero de fichas de cada jugador y lo devuelve como una tupla
 	def count(self):
-		counter = 0
+		counterX = 0
+		counterY = 0
+		#Recorre el tablero entero mientras cuenta
 		for i in self.tablero:
 			for x in i:
 				if x==1:
-					counter += 1 
-		return counter
+					counterX += 1 
+				elif x == -1:
+					counterY += 1
+		return counterX,counterY
 
-if __name__ == "__main__":
-	culo = Tablero()
-	print(culo.play(5,3))
-	print(culo.play(5,2))
-	culo.draw()
-	#print(culo.count())
-	
+	#Comprueba si hay alguna jugada posible para el jugador actual viendo si puede colocar una ficha en alguna de las casillas del tablero
+	def checkJugadaPosible(self):
+		for i in range(8):
+			for j in range(8):
+				if self.canPlay(i,j,True):
+					return True
+		return False

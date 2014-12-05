@@ -159,6 +159,7 @@ try:  # import as appropriate for 2.x vs. 3.x
    import tkinter as tk
 except:
    import Tkinter as tk
+import tkinter.messagebox
 
 
 ##########################################################################
@@ -209,7 +210,14 @@ class GraphWin(tk.Canvas):
         master.lift()
         self.lastKey = ""
         if autoflush: _root.update()
-     
+
+    def asignarDragg(self,arg):
+        self.bind("<Motion>",arg)
+
+    def printText(self, title, text):
+        tk.messagebox.showinfo(title, text)
+        #tk.messagebox.askquestion('title','question')
+
     def __checkOpen(self):
         if self.closed:
             raise GraphicsError("window is closed")
@@ -424,7 +432,13 @@ class GraphicsObject:
         for option in options:
             config[option] = DEFAULT_CONFIG[option]
         self.config = config
-        
+
+
+    #Cambia el color del objeto
+    def setColor(self, color):
+        self._reconfig("fill",color)
+        self._reconfig("outline",color)
+
     def setFill(self, color):
         """Set interior color to color"""
         self._reconfig("fill", color)
