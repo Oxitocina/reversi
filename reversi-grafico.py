@@ -2,8 +2,24 @@ from Tablero import *
 from graphics import *
 from sys import *
 
+from socket import *
+
 class Partida():	
 	def __init__(self):
+		print("¿Quieres jugar online o en local?")
+		a = input()
+		if a == "0" or a == "online" or a == "o":
+			self.online = True
+			print("¿Quieres ser el host o unirte a una partida?")
+			a = input()
+			if a == "host" or a == "0":
+				self.host()
+			else:
+				self.client()
+		else:
+			self.online = False
+
+
 		self.ventana = GraphWin("Reversi", 555, 555)
 		self.tablero = Image(Point(277.5,277.5), "tablero-ajedrez.png")
 		self.tabl = Tablero()
@@ -60,16 +76,31 @@ class Partida():
 		#self.ventana.printText("hola","Mundo")
 		endGame = False
 		while self.tabl.fichas<64:
-			if not self.tabl.checkJugadaPosible():
-				if endGame:
-					self.calcularPunt() 
-				self.ventana.printText("Aviso","Tienes que pasar tu turno")
-				endGame = True
-				continue
-			endGame = False
-			jugada = self.ventana.getMouse()
-			if self.tabl.play(int(jugada.x/69),int(jugada.y/69)):
-				self.dibuja_fichas()
+			#EN el caso de jugar online y si no toca al local
+			if self.online and self.tabl.jugador != self.yo:
+				jugada = self.recvMessage()
+				jugadaX,jugadaY = jugada.split('/')
+				if self.tabl.play(int(float(jugadaX)/69),int(float(jugadaY)/69)):
+					self.dibuja_fichas()
+				else:
+					print ("Error en la comunicacion")
+					sys.exit(-1)
+			#Toca jugar al local o no hay online
+			else:
+				if not self.tabl.checkJugadaPosible():
+					if endGame:
+						self.calcularPunt() 
+					self.ventana.printText("Aviso","Tienes que pasar tu turno")
+					endGame = True
+					continue
+				endGame = False
+				jugada = self.ventana.getMouse()
+				if self.tabl.play(int(jugada.x/69),int(jugada.y/69)):
+					self.dibuja_fichas()
+					#ENVIAR MENSAJE
+					self.sendMessage(str(jugada.x) + "/" + str(jugada.y))
+
+
 		self.calcularPunt()
 
 	def calcularPunt(self):
@@ -83,6 +114,46 @@ class Partida():
 		self.ventana.close()
 		sys.exit(0)
 
+	def host(self):
+		HOST = ''                 # Symbolic name meaning all available interfaces
+		PORT = 50007              # Arbitrary non-privileged port
+		s = socket(AF_INET, SOCK_STREAM)
+		s.bind((HOST, PORT))
+		s.listen(1)
+		print("esperando conexion del contrincante")
+		self.socketin, addr = s.accept()
+		print ('Connected by', addr)
+		self.yo = 1
+
+	def client(self):
+		print("Cual es la ip de tu contrincante? : ")
+		ip = input()
+		HOST = ip    # The remote host
+		PORT = 50007              # The same port as used by the server
+		self.socketin = socket(AF_INET, SOCK_STREAM)
+		self.socketin.connect((HOST, PORT))
+		self.yo = -1
+
+	def sendMessage(self,string):
+		self.socketin.send(bytes(string,'UTF-8'))
+	
+	def recvMessage(self):
+		data = self.socketin.recv(1024)
+		print (data.decode('UTF-8'))
+		return data.decode('UTF-8')
+
+	def closeConn(self):
+		self.socketin.close()
 if __name__ == "__main__":
+	
 	game = Partida()
-	game.jugar()
+	#lol = input()
+	#if lol == '0':
+	#	game.host()
+	#	texto = game.recvMessage()
+	#	game.sendMessage(texto)
+	#else:
+	#	game.client()
+	#	game.sendMessage("hola mundo")
+	#	print(game.recvMessage())
+	#game.jugar()
