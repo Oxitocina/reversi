@@ -139,7 +139,6 @@ class Partida():
 	
 	def recvMessage(self):
 		data = self.socketin.recv(1024)
-		print (data.decode('UTF-8'))
 		return data.decode('UTF-8')
 
 	def closeConn(self):
@@ -147,13 +146,3 @@ class Partida():
 if __name__ == "__main__":
 	
 	game = Partida()
-	#lol = input()
-	#if lol == '0':
-	#	game.host()
-	#	texto = game.recvMessage()
-	#	game.sendMessage(texto)
-	#else:
-	#	game.client()
-	#	game.sendMessage("hola mundo")
-	#	print(game.recvMessage())
-	#game.jugar()
