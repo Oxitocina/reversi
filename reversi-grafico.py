@@ -98,7 +98,8 @@ class Partida():
 				if self.tabl.play(int(jugada.x/69),int(jugada.y/69)):
 					self.dibuja_fichas()
 					#ENVIAR MENSAJE
-					self.sendMessage(str(jugada.x) + "/" + str(jugada.y))
+					if self.online:
+						self.sendMessage(str(jugada.x) + "/" + str(jugada.y))
 
 
 		self.calcularPunt()
